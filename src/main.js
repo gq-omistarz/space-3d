@@ -23,6 +23,7 @@ window.onload = function() {
         };
         this.fov = parseInt(params.fov) || 80;
         this.pointStars = params.pointStars === undefined ? true : params.pointStars === "true";
+        this.pointStarsAmount = parseInt(params.pointStarsAmount) || 100000;
         this.stars = params.stars === undefined ? true : params.stars === "true";
         this.sun = params.sun === undefined ? true : params.sun === "true";
         this.nebulae = params.nebulae === undefined ? true : params.nebulae === "true";
@@ -40,6 +41,8 @@ window.onload = function() {
     gui.add(menu, "randomSeed").name("Randomize seed");
     gui.add(menu, "fov", 10, 150, 1).name("Field of view °");
     gui.add(menu, "pointStars").name("Point stars").onChange(renderTextures);
+    gui.add(menu, "pointStarsAmount").name("Point stars amount").onFinishChange(renderTextures);
+    //gui.add(menu, "pointStarsAmount", 100, 200000, 100).name("Point stars Amount").onFinishChange(renderTextures);
     gui.add(menu, "stars").name("Bright stars").onChange(renderTextures);
     gui.add(menu, "sun").name("Sun").onChange(renderTextures);
     gui.add(menu, "nebulae").name("Nebulae").onChange(renderTextures);
@@ -91,6 +94,7 @@ window.onload = function() {
             seed: menu.seed,
             fov: menu.fov,
             pointStars: menu.pointStars,
+            pointStarsAmount: menu.pointStarsAmount,
             stars: menu.stars,
             sun: menu.sun,
             nebulae: menu.nebulae,
@@ -118,6 +122,7 @@ window.onload = function() {
         var textures = space.render({
             seed: menu.seed,
             pointStars: menu.pointStars,
+            pointStarsAmount: menu.pointStarsAmount,
             stars: menu.stars,
             sun: menu.sun,
             nebulae: menu.nebulae,
