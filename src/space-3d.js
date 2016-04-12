@@ -32,6 +32,9 @@ module.exports = function() {
         self.pStar = util.loadProgram(self.gl, fs.readFileSync(__dirname + "/glsl/star.glsl", "utf8"));
         self.pSun = util.loadProgram(self.gl, fs.readFileSync(__dirname + "/glsl/sun.glsl", "utf8"));
 
+        self.preRender();
+
+        /**
         // Create the point stars renderable.
         var rand = new rng.MT(hashcode("best seed ever") + 5000);
         var position = new Float32Array(18 * NSTARS);
@@ -48,6 +51,7 @@ module.exports = function() {
         attribs.aColor.buffer.set(color);
         var count = position.length / 9;
         self.rPointStars = new webgl.Renderable(self.gl, self.pPointStars, attribs, count);
+        */
 
         // Create the nebula, sun, and star renderables.
         self.rNebula = buildBox(self.gl, self.pNebula);
@@ -55,7 +59,32 @@ module.exports = function() {
         self.rStar = buildBox(self.gl, self.pStar);
     };
 
+    self.preRender = function (params) {
+        if (params === undefined) params = {
+            pointStarsAmount: NSTARS
+        }
+
+        // Create the point stars renderable.
+        var rand = new rng.MT(hashcode("best seed ever") + 5000);
+        var position = new Float32Array(18 * params.pointStarsAmount);
+        var color = new Float32Array(18 * params.pointStarsAmount);
+        for (var i = 0; i < params.pointStarsAmount; i++) {
+            var size = 0.05;
+            var pos = glm.vec3.random(glm.vec3.create(), 1.0);
+            var star = buildStar(size, pos, 128.0, rand);
+            position.set(star.position, i * 18);
+            color.set(star.color, i * 18);
+        }
+        var attribs = webgl.buildAttribs(self.gl, {aPosition:3, aColor:3});
+        attribs.aPosition.buffer.set(position);
+        attribs.aColor.buffer.set(color);
+        var count = position.length / 9;
+        self.rPointStars = new webgl.Renderable(self.gl, self.pPointStars, attribs, count);
+    }
+
     self.render = function(params) {
+
+        self.preRender(params);
 
         // We'll be returning a map of direction to texture.
         var textures = {};
@@ -79,15 +108,14 @@ module.exports = function() {
         // Initialize the star parameters.
         var rand = new rng.MT(hashcode(params.seed) + 3000);
         var starParams = [];
-        while (params.stars) {
-            starParams.push({
-                pos: randomVec3(rand),
-                color: [1,1,1],
-                size: 0.0,
-                falloff: rand.random() * Math.pow(2, 20) + Math.pow(2, 20),
-            });
-            if (rand.random() < 0.01) {
-                break;
+        if(params.stars) {
+            for(var i = 0; i < params.starsAmount; i++){
+                starParams.push({
+                    pos: randomVec3(rand),
+                    color: [1, 1, 1],
+                    size: 0.0,
+                    falloff: rand.random() * Math.pow(2, 20) + Math.pow(2, 20),
+                });
             }
         }
 
