@@ -108,15 +108,14 @@ module.exports = function() {
         // Initialize the star parameters.
         var rand = new rng.MT(hashcode(params.seed) + 3000);
         var starParams = [];
-        while (params.stars) {
-            starParams.push({
-                pos: randomVec3(rand),
-                color: [1,1,1],
-                size: 0.0,
-                falloff: rand.random() * Math.pow(2, 20) + Math.pow(2, 20),
-            });
-            if (rand.random() < 0.01) {
-                break;
+        if(params.stars) {
+            for(var i = 0; i < params.starsAmount; i++){
+                starParams.push({
+                    pos: randomVec3(rand),
+                    color: [1, 1, 1],
+                    size: 0.0,
+                    falloff: rand.random() * Math.pow(2, 20) + Math.pow(2, 20),
+                });
             }
         }
 

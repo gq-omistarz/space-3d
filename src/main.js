@@ -25,6 +25,7 @@ window.onload = function() {
         this.pointStars = params.pointStars === undefined ? true : params.pointStars === "true";
         this.pointStarsAmount = parseInt(params.pointStarsAmount) || 100000;
         this.stars = params.stars === undefined ? true : params.stars === "true";
+        this.starsAmount = parseInt(params.starsAmount) || 100;
         this.sun = params.sun === undefined ? true : params.sun === "true";
         this.nebulae = params.nebulae === undefined ? true : params.nebulae === "true";
         this.resolution = parseInt(params.resolution) || 1024;
@@ -44,6 +45,7 @@ window.onload = function() {
     gui.add(menu, "pointStarsAmount").name("Point stars amount").onFinishChange(renderTextures);
     //gui.add(menu, "pointStarsAmount", 100, 200000, 100).name("Point stars Amount").onFinishChange(renderTextures);
     gui.add(menu, "stars").name("Bright stars").onChange(renderTextures);
+    gui.add(menu, "starsAmount").name("Bright stars amount").onFinishChange(renderTextures);
     gui.add(menu, "sun").name("Sun").onChange(renderTextures);
     gui.add(menu, "nebulae").name("Nebulae").onChange(renderTextures);
     gui.add(menu, "resolution", [256, 512, 1024, 2048, 4096]).name("Resolution").onChange(renderTextures);
@@ -96,6 +98,7 @@ window.onload = function() {
             pointStars: menu.pointStars,
             pointStarsAmount: menu.pointStarsAmount,
             stars: menu.stars,
+            starsAmount: menu.starsAmount,
             sun: menu.sun,
             nebulae: menu.nebulae,
             resolution: menu.resolution,
@@ -124,6 +127,7 @@ window.onload = function() {
             pointStars: menu.pointStars,
             pointStarsAmount: menu.pointStarsAmount,
             stars: menu.stars,
+            starsAmount: menu.starsAmount,
             sun: menu.sun,
             nebulae: menu.nebulae,
             unifiedTexture: menu.unifiedTexture,
