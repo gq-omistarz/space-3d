@@ -43,7 +43,6 @@ window.onload = function() {
     gui.add(menu, "fov", 10, 150, 1).name("Field of view °");
     gui.add(menu, "pointStars").name("Point stars").onChange(renderTextures);
     gui.add(menu, "pointStarsAmount").name("Point stars amount").onFinishChange(renderTextures);
-    //gui.add(menu, "pointStarsAmount", 100, 200000, 100).name("Point stars Amount").onFinishChange(renderTextures);
     gui.add(menu, "stars").name("Bright stars").onChange(renderTextures);
     gui.add(menu, "starsAmount").name("Bright stars amount").onFinishChange(renderTextures);
     gui.add(menu, "sun").name("Sun").onChange(renderTextures);
